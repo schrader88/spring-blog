@@ -7,16 +7,24 @@
 </head>
 <body>
 <h1>Dice Roll</h1>
+
+<div th:if="${n}">
+    <h3>You chose number: <span th:text="${n}"></span></h3>
+    <h3>The random number is: <span th:text="${random}"></span></h3>
+    <p th:if="${equalsRandom}">Your guess is: CORRECT</p>
+    <p th:if="!${equalsRandom}">Your guess is: INCORRECT</p>
+</div>
+
 <p>Here you will make a guess of what number will be rolled on a 6 sided dice.</p>
 <br>
 <h3>Select your guess: </h3>
 <ul>
-    <li><a href="/roll-dice/1">One</a></li>
-    <li><a href="/roll-dice/2">Two</a></li>
-    <li><a href="/roll-dice/3">Three</a></li>
-    <li><a href="/roll-dice/4">Four</a></li>
-    <li><a href="/roll-dice/5">Five</a></li>
-    <li><a href="/roll-dice/6">Six</a></li>
+    <li><a href="/roll-dice/1">1</a></li>
+    <li><a href="/roll-dice/2">2</a></li>
+    <li><a href="/roll-dice/3">3</a></li>
+    <li><a href="/roll-dice/4">4</a></li>
+    <li><a href="/roll-dice/5">5</a></li>
+    <li><a href="/roll-dice/6">6</a></li>
 </ul>
 </body>
 </html>
