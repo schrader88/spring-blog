@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Individual Post</title>
-</head>
+<head th:replace="partials/partials.html :: head ('Posts')" />
 <body>
+    <nav th:replace="partials/partials.html :: navbar" />
 
+<script th:replace="partials/partials.html :: bootstrap-js" />
 </body>
 </html>

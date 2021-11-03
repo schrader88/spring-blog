@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dice Roll</title>
-</head>
+<head th:replace="partials/partials.html :: head ('Dice Roll')" />
 <body>
+<nav th:replace="partials/partials.html :: navbar" />
 <h1>Dice Roll</h1>
 
 <div th:if="${n}">
@@ -26,5 +24,6 @@
     <li><a href="/roll-dice/5">5</a></li>
     <li><a href="/roll-dice/6">6</a></li>
 </ul>
+<script th:replace="partials/partials.html :: bootstrap-js" />
 </body>
 </html>
