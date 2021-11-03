@@ -4,6 +4,15 @@
 <body>
     <nav th:replace="partials/partials.html :: navbar" />
 
+    <h1>All Posts:</h1>
+
+    <ul>
+        <li th:each="post : ${posts}">
+            <h5><span th:text="${post.title}"></span></h5>
+            <p th:text="${post.body}"></p>
+        </li>
+    </ul>
+
 <script th:replace="partials/partials.html :: bootstrap-js" />
 </body>
 </html>
