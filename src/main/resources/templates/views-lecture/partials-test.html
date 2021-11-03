@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:include="partials/partials.html :: head ('Partials Example')"></head>
+<head th:replace="partials/partials.html :: head ('Partials Example')" />
 <body>
+    <nav th:replace="partials/partials.html :: navbar" />
     <h1>Welcome to the Partials Palace</h1>
+    <script th:replace="partials/partials.html :: bootstrap-js" />
 </body>
 </html>
