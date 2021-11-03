@@ -10,7 +10,7 @@ public class DiceRollController {
 
     @GetMapping("/roll-dice")
     public String diceRollIndex() {
-        return "roll-dice";
+        return "roll-dice/roll-dice";
     }
 
     @GetMapping("/roll-dice/{n}")
@@ -31,6 +31,6 @@ public class DiceRollController {
 
         model.addAttribute("equalsRandom", equalsRandom);
 
-        return "roll-dice";
+        return "roll-dice/roll-dice";
     }
 }
