@@ -1,7 +1,18 @@
 package com.codeup.springblog.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "posts")
 public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(columnDefinition = "VARCHAR(200) NOT NULL")
     private String title;
+
+    @Column(columnDefinition = "TEXT NOT NULL")
     private String body;
 
     public Post() {

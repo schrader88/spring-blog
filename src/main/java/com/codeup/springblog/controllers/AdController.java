@@ -28,15 +28,17 @@ public class AdController {
 //        return "Showing ad: " + id;
 //    }
 
-    @GetMapping("/ads/{title}")
-    public Ad getByTitle(@PathVariable String title) {
-        return adRepository.findByTitle(title);
-    }
-
-//    @GetMapping("/ads/{titlePart}")
-//    public List<Ad> getByTitle(@PathVariable String titlePart) {
-//        return adRepository.findByTitleLike(titlePart);
+//    @GetMapping("/ads/{title}")
+//    @ResponseBody
+//    public Ad getByTitle(@PathVariable String title) {
+//        return adRepository.findByTitle(title);
 //    }
+
+    @GetMapping("/ads/{titlePart}")
+    @ResponseBody
+    public List<Ad> getByTitle(@PathVariable String titlePart) {
+        return adRepository.findByTitleLike(titlePart);
+    }
 
     @PostMapping("/ads")
     @ResponseBody
