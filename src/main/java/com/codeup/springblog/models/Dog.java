@@ -10,7 +10,7 @@ public class Dog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(columnDefinition = "TINYINT(3) UNSIGNED NOT NULL")
+    @Column(columnDefinition = "TINYINT(3) UNSIGNED NOT NULL", unique = true)
     private int age;
 
     @Column(columnDefinition = "VARCHAR(200) NOT NULL")
