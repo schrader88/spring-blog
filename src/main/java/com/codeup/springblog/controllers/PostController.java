@@ -47,23 +47,10 @@ public class PostController {
 //        return "posts/show";
 //    }
 
-    @GetMapping("/posts/{title}")
-    @ResponseBody
-    public Post getByTitle(@PathVariable String title) {
-        return postRepository.findByTitle(title);
-    }
-
     @GetMapping("/posts/create")
-    @ResponseBody
     public String postForm() {
-        return "Here is a form to create a post: ";
+        return "posts/form";
     }
-
-//    @PostMapping("/posts/create")
-//    @ResponseBody
-//    public String createPost() {
-//        return "Creating a new post...";
-//    }
 
     @PostMapping("/posts/create")
     @ResponseBody
