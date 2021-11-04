@@ -4,10 +4,7 @@ import com.codeup.springblog.models.Post;
 import com.codeup.springblog.repositories.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,27 +17,40 @@ public class PostController {
         this.postRepository = postRepository;
     }
 
+//    @GetMapping("/posts")
+//    public String showPosts(Model model) {
+//        Post postOne = new Post("My First Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
+//        Post postTwo = new Post("My Second Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
+//
+//        List<Post> posts = new ArrayList<>();
+//
+//        posts.add(postOne);
+//        posts.add(postTwo);
+//
+//        model.addAttribute("posts", posts);
+//
+//        return "posts/index";
+//    }
+
     @GetMapping("/posts")
-    public String showPosts(Model model) {
-        Post postOne = new Post("My First Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
-        Post postTwo = new Post("My Second Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
-
-        List<Post> posts = new ArrayList<>();
-
-        posts.add(postOne);
-        posts.add(postTwo);
-
-        model.addAttribute("posts", posts);
-
-        return "posts/index";
+    @ResponseBody
+    public List<Post> showPosts(Model model) {
+        return postRepository.findAll();
     }
 
-    @GetMapping("/posts/{id}")
-    public String showSinglePost(@PathVariable long id, Model model) {
-        Post post = new Post("My First Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
+//    @GetMapping("/posts/{id}")
+//    @ResponseBody
+//    public String showSinglePost(@PathVariable long id, Model model) {
+//        Post post = new Post("My First Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
+//
+//        model.addAttribute("post", post);
+//        return "posts/show";
+//    }
 
-        model.addAttribute("post", post);
-        return "posts/show";
+    @GetMapping("/posts/{title}")
+    @ResponseBody
+    public Post getByTitle(@PathVariable String title) {
+        return postRepository.findByTitle(title);
     }
 
     @GetMapping("/posts/create")
@@ -49,9 +59,16 @@ public class PostController {
         return "Here is a form to create a post: ";
     }
 
+//    @PostMapping("/posts/create")
+//    @ResponseBody
+//    public String createPost() {
+//        return "Creating a new post...";
+//    }
+
     @PostMapping("/posts/create")
     @ResponseBody
-    public String createPost() {
-        return "Creating a new post...";
+    public String createPost(@RequestBody Post newPost) {
+        postRepository.save(newPost);
+        return String.format("Ad created with an ID of: %s", newPost.getId());
     }
 }
