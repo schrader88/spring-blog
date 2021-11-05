@@ -56,4 +56,10 @@ public class PostController {
         postRepository.save(post);
         return "redirect:/posts";
     }
+
+    @PostMapping("posts/{id}/delete")
+    public String deletePost(@PathVariable long id) {
+        postRepository.deleteById(id);
+        return "redirect:/posts";
+    }
 }
