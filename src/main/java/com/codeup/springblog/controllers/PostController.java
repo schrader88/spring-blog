@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,39 +16,19 @@ public class PostController {
         this.postRepository = postRepository;
     }
 
-//    @GetMapping("/posts")
-//    public String showPosts(Model model) {
-//        Post postOne = new Post("My First Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
-//        Post postTwo = new Post("My Second Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
-//
-//        List<Post> posts = new ArrayList<>();
-//
-//        posts.add(postOne);
-//        posts.add(postTwo);
-//
-//        model.addAttribute("posts", posts);
-//
-//        return "posts/index";
-//    }
-
     @GetMapping("/posts")
-    @ResponseBody
-    public List<Post> showPosts(Model model) {
-        return postRepository.findAll();
+    public String index(Model model) {
+        // fetch all posts with postRepository
+        List<Post> posts = postRepository.findAll();
+        model.addAttribute("posts", posts);
+        return "posts/index";
+
     }
 
-//    @GetMapping("/posts/{id}")
-//    @ResponseBody
-//    public String showSinglePost(@PathVariable long id, Model model) {
-//        Post post = new Post("My First Blog", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi autem consectetur culpa cumque doloribus eaque esse facilis, fugit ipsum laudantium minima mollitia, possimus quidem rem repellendus soluta tenetur voluptatem!");
-//
-//        model.addAttribute("post", post);
-//        return "posts/show";
-//    }
-
     @GetMapping("/posts/create")
+    @ResponseBody
     public String postForm() {
-        return "posts/form";
+        return "Post Creation Form";
     }
 
     @PostMapping("/posts/create")
@@ -57,5 +36,24 @@ public class PostController {
     public String createPost(@RequestBody Post newPost) {
         postRepository.save(newPost);
         return String.format("Ad created with an ID of: %s", newPost.getId());
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String returnEditView(@PathVariable long id, Model model) {
+        model.addAttribute("post", postRepository.getById(id));
+        return "posts/edit";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String updatePost(@PathVariable long id, @RequestParam String title, @RequestParam String body) {
+        // use the form inputs to update the existing post in the db
+        // pull the existing post object from the db
+        Post post = postRepository.getById(id);
+        // set the title and body to the request param values
+        post.setTitle(title);
+        post.setBody(body);
+        // persist the change in the db with the postRepository
+        postRepository.save(post);
+        return "redirect:/posts";
     }
 }
