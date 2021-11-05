@@ -27,6 +27,12 @@ public class Post {
         this.body = body;
     }
 
+    public Post(String title, String body, List<PostImage> images) {
+        this.title = title;
+        this.body = body;
+        this.images = images;
+    }
+
     public long getId() {
         return id;
     }

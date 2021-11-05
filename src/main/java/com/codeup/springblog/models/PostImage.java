@@ -20,6 +20,10 @@ public class PostImage {
     public PostImage() {
     }
 
+    public PostImage(String url) {
+        this.url = url;
+    }
+
     public long getId() {
         return id;
     }

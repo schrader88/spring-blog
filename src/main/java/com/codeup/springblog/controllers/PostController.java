@@ -1,11 +1,13 @@
 package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.models.Post;
+import com.codeup.springblog.models.PostImage;
 import com.codeup.springblog.repositories.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,10 +33,20 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@RequestParam String title, @RequestParam String body, @RequestParam String urls) {
-        System.out.println(title);
-        System.out.println(body);
-        System.out.println(urls);
+    public String createPost(@RequestParam String title, @RequestParam String body, @RequestParam List<String> urls) {
+        List<PostImage> images = new ArrayList<>();
+
+        Post post = new Post(title, body);
+
+        for (String url : urls) {
+            PostImage postImage = new PostImage(url);
+            postImage.setPost(post);
+            images.add(postImage);
+        }
+
+        post.setImages(images);
+
+        postRepository.save(post);
         return "redirect:/posts";
     }
 

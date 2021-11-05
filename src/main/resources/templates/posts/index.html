@@ -8,6 +8,7 @@
 
     <ul>
         <li th:each="post : ${posts}">
+            <img width="50" th:src="${image.url}" th:each="image : ${post.images}">
             <h5><span th:text="${post.title}"></span></h5>
             <p th:text="${post.body}"></p>
             <a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit Post</a>
