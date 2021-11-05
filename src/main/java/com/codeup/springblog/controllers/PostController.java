@@ -26,16 +26,16 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
     public String postForm() {
-        return "Post Creation Form";
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String createPost(@RequestBody Post newPost) {
-        postRepository.save(newPost);
-        return String.format("Ad created with an ID of: %s", newPost.getId());
+    public String createPost(@RequestParam String title, @RequestParam String body, @RequestParam String urls) {
+        System.out.println(title);
+        System.out.println(body);
+        System.out.println(urls);
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/{id}/edit")
