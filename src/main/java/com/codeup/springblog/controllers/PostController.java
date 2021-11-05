@@ -2,7 +2,9 @@ package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.models.Post;
 import com.codeup.springblog.models.PostImage;
+import com.codeup.springblog.models.User;
 import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,11 @@ import java.util.List;
 @Controller
 public class PostController {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public PostController(PostRepository postRepository) {
+    public PostController(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/posts")
@@ -36,6 +40,8 @@ public class PostController {
     public String createPost(@RequestParam String title, @RequestParam String body, @RequestParam List<String> urls) {
         List<PostImage> images = new ArrayList<>();
 
+        User user = new User(1, "schrader", "kyle@example.com", "password");
+
         Post post = new Post(title, body);
 
         for (String url : urls) {
@@ -46,7 +52,11 @@ public class PostController {
 
         post.setImages(images);
 
-        postRepository.save(post);
+        post.setUser(user);
+
+        user.addPost(post);
+
+        userRepository.save(user);
         return "redirect:/posts";
     }
 
