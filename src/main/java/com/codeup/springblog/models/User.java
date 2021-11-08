@@ -12,17 +12,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    @Column(nullable = false)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String email;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<Ad> ads;
 
     public User() {
     }
