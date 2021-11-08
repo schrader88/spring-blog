@@ -3,6 +3,7 @@ package com.codeup.springblog.controllers;
 import com.codeup.springblog.models.Ad;
 import com.codeup.springblog.repositories.AdRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +18,9 @@ public class AdController {
     }
 
     @GetMapping("/ads")
-    @ResponseBody
-    public List<Ad> showAds() {
-        return adRepository.findAll();
+    public String showAds(Model model) {
+        model.addAttribute("ads", adRepository.findAll());
+        return "ads/index";
     }
 
 //    @GetMapping("/ads/{id}")
@@ -45,6 +46,17 @@ public class AdController {
     public String createAd(@RequestBody Ad newAd) {
         adRepository.save(newAd);
         return String.format("Ad created with an ID of: %s", newAd.getId());
+    }
+
+    @GetMapping("/ads/create")
+    public String showCreateAdsForm(Model model){
+        model.addAttribute("ad", new Ad());
+        return "ads/create";
+    }
+    @PostMapping("/ads/create")
+    public String createAdWithForm(@ModelAttribute Ad ad){
+        adRepository.save(ad);
+        return "redirect:/ads";
     }
 
 }

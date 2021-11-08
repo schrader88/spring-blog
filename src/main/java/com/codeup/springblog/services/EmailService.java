@@ -32,4 +32,20 @@ public class EmailService {
             System.err.println(ex.getMessage());
         }
     }
+
+    public void prepareAndSend(String email, String message) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(from);
+        msg.setTo(email);
+        msg.setSubject("Coffee Newsletter");
+        msg.setText(message);
+
+        try{
+            this.emailSender.send(msg);
+        }
+        catch (MailException ex) {
+            // simply log it and go on...
+            System.err.println(ex.getMessage());
+        }
+    }
 }
