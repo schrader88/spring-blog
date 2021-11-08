@@ -66,14 +66,8 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String updatePost(@PathVariable long id, @RequestParam String title, @RequestParam String body) {
-        // use the form inputs to update the existing post in the db
-        // pull the existing post object from the db
-        Post post = postRepository.getById(id);
-        // set the title and body to the request param values
-        post.setTitle(title);
-        post.setBody(body);
-        // persist the change in the db with the postRepository
+    public String updatePost(@PathVariable long id, @ModelAttribute("post") Post post) {
+        post.setId(id);
         postRepository.save(post);
         return "redirect:/posts";
     }
