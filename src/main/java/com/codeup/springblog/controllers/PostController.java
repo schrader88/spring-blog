@@ -32,17 +32,16 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String postForm() {
+    public String postForm(Model model) {
+        model.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@RequestParam String title, @RequestParam String body, @RequestParam List<String> urls) {
+    public String createPost(@ModelAttribute Post post, @RequestParam List<String> urls) {
         List<PostImage> images = new ArrayList<>();
 
         User user = new User(1, "schrader", "kyle@example.com", "password");
-
-        Post post = new Post(title, body);
 
         for (String url : urls) {
             PostImage postImage = new PostImage(url);
