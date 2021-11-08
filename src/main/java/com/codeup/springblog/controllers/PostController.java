@@ -41,7 +41,7 @@ public class PostController {
     public String createPost(@ModelAttribute Post post, @RequestParam List<String> urls) {
         List<PostImage> images = new ArrayList<>();
 
-        User user = new User(1, "schrader", "kyle@example.com", "password");
+        User user = userRepository.getById(1L);
 
         for (String url : urls) {
             PostImage postImage = new PostImage(url);
@@ -66,9 +66,14 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String updatePost(@PathVariable long id, @ModelAttribute("post") Post post) {
-        post.setId(id);
-        postRepository.save(post);
+    public String updatePost(@ModelAttribute("post") Post post) {
+
+        Post editedPost = postRepository.getById(post.getId());
+
+        editedPost.setTitle(post.getTitle());
+        editedPost.setBody(post.getBody());
+
+        postRepository.save(editedPost);
         return "redirect:/posts";
     }
 
