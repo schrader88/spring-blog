@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head th:replace="partials/partials.html :: head ('My Blog')" />
 <body>
     <nav th:replace="partials/partials.html :: navbar" />
@@ -12,10 +12,14 @@
             <h5><span th:text="${post.title}"></span></h5>
             <p th:text="${post.body}"></p>
             <p><span th:text="${post.user.email}"></span></p>
-            <a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit Post</a>
-            <form th:action="@{'/posts/' + ${post.id} + '/delete'}" th:method="POST">
-                <button>Delete Post</button>
-            </form>
+            <div sec:authorize="isAuthenticated()">
+                <div th:if="${#authentication.principal.id == post.user.id}">
+                    <a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit Post</a>
+                    <form th:action="@{'/posts/' + ${post.id} + '/delete'}" th:method="POST">
+                        <button>Delete Post</button>
+                    </form>
+                </div>
+            </div>
         </li>
     </ul>
 
