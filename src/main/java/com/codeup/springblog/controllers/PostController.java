@@ -6,6 +6,7 @@ import com.codeup.springblog.models.User;
 import com.codeup.springblog.repositories.PostRepository;
 import com.codeup.springblog.repositories.UserRepository;
 import com.codeup.springblog.services.EmailService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class PostController {
     public String createPost(@ModelAttribute Post post, @RequestParam List<String> urls) {
         List<PostImage> images = new ArrayList<>();
 
-        User user = userRepository.getById(1L);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         for (String url : urls) {
             PostImage postImage = new PostImage(url);
@@ -56,9 +57,7 @@ public class PostController {
 
         post.setUser(user);
 
-        user.addPost(post);
-
-        userRepository.save(user);
+        postRepository.save(post);
 
         emailService.prepareAndSend(post, "You created " + post.getTitle(), post.getBody());
         return "redirect:/posts";
