@@ -124,8 +124,26 @@ public class PostIntegrationTests {
 
     // test post delete
     @Test
-    public void testPostDelete() throws Exception {
+    public void testDeletePost() throws Exception {
+        // Creates a test Post to be deleted
+        this.mvc.perform(
+                        post("/posts/create").with(csrf())
+                                .session((MockHttpSession) httpSession)
+                                .param("title", "post to be deleted")
+                                .param("body", "won't last long")
+                                .param("urls", "#")
+                                .param("urls", "#"))
+                .andExpect(status().is3xxRedirection());
 
+        // Get the recent Post that matches the title
+        Post existingPost = postRepository.findByTitle("post to be deleted");
+
+        // Makes a Post request to /posts/{id}/delete and expect a redirection to the Posts index
+        this.mvc.perform(
+                        post("/posts/" + existingPost.getId() + "/delete").with(csrf())
+                                .session((MockHttpSession) httpSession)
+                                .param("id", String.valueOf(existingPost.getId())))
+                .andExpect(status().is3xxRedirection());
     }
 
         // setup similar to creating a post with csrf and session
@@ -133,8 +151,24 @@ public class PostIntegrationTests {
 
     // test post delete
     @Test
-    public void testPostEdit() {
+    public void testEditPost() throws Exception {
+        // Gets the first Post for tests purposes
+        Post existingPost = postRepository.findAll().get(0);
 
+        // Makes a Post request to /posts/{id}/edit and expect a redirection to the Post show page
+        this.mvc.perform(
+                        post("/posts/" + existingPost.getId() + "/edit").with(csrf())
+                                .session((MockHttpSession) httpSession)
+                                .param("title", "edited title")
+                                .param("body", "edited description"))
+                .andExpect(status().is3xxRedirection());
+
+        // Makes a GET request to /posts/{id} and expect a redirection to the Post show page
+        this.mvc.perform(get("/posts/" + existingPost.getId()))
+                .andExpect(status().isOk())
+                // Test the dynamic content of the page
+                .andExpect(content().string(containsString("edited title")))
+                .andExpect(content().string(containsString("edited description")));
     }
 
         // setup similar to creating a post with csrf and session
