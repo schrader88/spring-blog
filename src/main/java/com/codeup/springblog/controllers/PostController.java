@@ -45,7 +45,9 @@ public class PostController {
     public String createPost(@ModelAttribute Post post, @RequestParam List<String> urls) {
         List<PostImage> images = new ArrayList<>();
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userRepository.getById(principal.getId());
 
         for (String url : urls) {
             PostImage postImage = new PostImage(url);
