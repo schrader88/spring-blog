@@ -35,6 +35,12 @@ public class PostController {
 
     }
 
+    @GetMapping("/posts/{id}")
+    public String showSinglePost(@PathVariable long id, Model model) {
+        model.addAttribute("post", postRepository.getById(id));
+        return "posts/show";
+    }
+
     @GetMapping("/posts/create")
     public String postForm(Model model) {
         model.addAttribute("post", new Post());
